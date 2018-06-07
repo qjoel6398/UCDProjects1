@@ -5,28 +5,31 @@ Spyder Editor
 This is a temporary script file.
 """
 
+"""
+This script was made to process the results of a pairwaise ANOVA comparison (Tukey Test). This data was output from RStudio into CSV form. Out of over 2200 parwise comparisons, I wanted only the ones who's means were adjacent in order. In effect, I wanted an ordered list of pairwise p-values.
+"""
+
 import pandas as pd
 import numpy as np
 
+#dataframe of 2244 pairwise comparisons:
 tk = pd.read_csv(r'C:\Users\qjoel\OneDrive\Desktop\GEOM\R\TukeyResults.csv')
+
+#dataframe of 67 means corresponding with groups (Tapestry segments):
 seg = pd.read_csv(r'C:\Users\qjoel\OneDrive\Desktop\GEOM\R\orderedmeans.csv')
+
+#Sort groups by mean
 seg = seg.sort_values(by="mean", axis=0, ascending=False, inplace=False)
 
-
-#ltk = list(tk["Unnamed: 0"])
-#
-#tkList = []
-#for i in tk["Unnamed: 0"]:
-#    tkList.append(i.split("-"))
-
-
+#Create reference list of adjacent group names in the format "group 1 - group 2". This is the same format that the pairwise comparisons are in.
 segList = []
 lseg = list(seg["TSEGNAME"])
 for i in range((len(lseg))-1):
     segList.append(str(lseg[i]+'-'+lseg[i+1]))
     
+    
 
-
+#Entire list of pairwise comparisons are now compared to the previous reference list - extracting only those that are identical. This will extract the P-values associated as well.
 segbool = []           
 for i in range(len(tk["Unnamed: 0"])):      
     x = tk["Unnamed: 0"][i].split("-")
@@ -37,35 +40,8 @@ for i in range(len(tk["Unnamed: 0"])):
         segbool.append(True)
         tk["Unnamed: 0"][i]=x
     else:
-        segbool.append(False)
+        segbool.append(False)        
 tk2 = tk[np.array(segbool)]
 
-        
-tk2
-#k=[0,1,2,3]        
-#for i in range(len(k)):
-#    k[i]=9
-#k  
-#    
-
-#list(segList[1].split("-").reverse())    
-#
-#elif i.split("-").reverse() in segList:
-#    segbool.append(True)
-#        
-#x = i.split("-")
-#x.reverse()
-#x = str(x[0]+'-'+x[1])
-#x    
-#        
-#segList[1]       
-#list(segList[1].split("-").reverse())    
-#segList[1]    
-    
-
-#subset tukey dataframe by single,ordered matches. But now they are not in order 
+#Write data to output.
 tk2.to_csv(r'C:\Users\qjoel\OneDrive\Desktop\GEOM\R\tk2.csv')
-
-for i in range(len(list(tk2["Unnamed: 0"]))):
-    tk2["Unnamed: 0"][i]=list(tk2["Unnamed: 0"]).split("-")[0]
-    
