@@ -5,6 +5,10 @@ Created on Sun Jan 21 20:45:05 2018
 @author: Qadmin
 """
 
+"""For more information on the CU Denver Varroa Mite Research Project visit: http://cuurbanbee.businesscatalyst.com/cu-beekeeping-survey.html
+This script was made to extract beekeeper's email addresses from a popular beekeeping website. 
+"""
+
 import pandas as pd
 import requests
 import time
@@ -43,7 +47,7 @@ ColoradoDf.to_csv(r'C:\Users\Qadmin\Desktop\Varroa Mite Project Research\Survey 
 
 
 ##DELAY:
-##If you want to be polite and not overwhelm the target site you’re scraping, 
+##
 ##you can introduce an intentional delay or lag in your scraper to slow it down
 #
 #for term in ["web scraping", "web crawling", "scrape this site"]:
