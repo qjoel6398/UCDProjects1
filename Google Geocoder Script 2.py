@@ -7,6 +7,7 @@ Created on Fri Dec 22 20:13:40 2017
 
 
 """
+For more information on the CU Denver Varroa Mite Project, visit: http://cuurbanbee.businesscatalyst.com/cu-beekeeping-survey.html
 For our Urban Beekeeping survey, users were asked to submit the major intersection that is closest to their beehives. This script attempts to find the lat/long coordinates corresponding to those intersections and merges them into the beekeeper survey results table. Also returns a column called cert -for "Certainty"- which is the number of results google retured for a given intersection.
 
 A typical google places request with intersections looks like this:
