@@ -1,12 +1,13 @@
+/*
 public.geocodingdata112617
 public.ne_10m_urban_areas
 public.ne_10m_admin_0_countries
 public.ne_10m_roads
-
+*/
 
 
 --Project your data
-create table spi_projected as
+create table abc_projected as
 select *, ST_Transform(geom, 4258) as the_geom
 from public.geocodingdata112617;
 
@@ -34,10 +35,10 @@ select europe.name, urban_projected.gid, urban_projected.the_geom
 FROM europe, urban_projected
 where ST_Intersects(europe.the_geom, urban_projected.the_geom);
 
-create table public.EuropeSPI as
-select spi_projected.*, europe.name
-FROM europe, spi_projected
-where ST_Intersects(europe.the_geom, spi_projected.the_geom);
+create table public.EuropeABC as
+select abc_projected.*, europe.name
+FROM europe, abc_projected
+where ST_Intersects(europe.the_geom, abc_projected.the_geom);
 
 create table public.Europeroads as
 select roads_projected.*
@@ -49,19 +50,19 @@ where ST_Intersects(europe.the_geom, roads_projected.the_geom);
 
 --how many TT customers in urban areas?
 create table public.EuropeTT1 as
-select EuropeSPI.*
-FROM UrbanCountries, EuropeSPI
-where EuropeSPI.tt_graduat = 1;
+select EuropeABC.*
+FROM UrbanCountries, EuropeABC
+where EuropeABC.tt_graduat = 1;
 
 create table public.EuropeDT as
-select EuropeSPI.*
-FROM UrbanCountries, EuropeSPI
-where EuropeSPI.dt_graduat = 1;
+select EuropeABC.*
+FROM UrbanCountries, EuropeABC
+where EuropeABC.dt_graduat = 1;
 
 create table public.EuropeCT as
-select EuropeSPI.*
-FROM UrbanCountries, EuropeSPI
-where EuropeSPI.ct_graduat = 1;
+select EuropeABC.*
+FROM UrbanCountries, EuropeABC
+where EuropeABC.ct_graduat = 1;
 
 
 
@@ -88,7 +89,7 @@ GROUP BY id
 
 
 --How many customers within 5 miles of roads?
-create table public.roadsSPI as
+create table public.roadsABC as
 select geocodingdata112617.*
 FROM Europeroads, geocodingdata112617
 where ST_Dwithin(Europeroads.geom, geocodingdata112617.geom, 8046.72);
