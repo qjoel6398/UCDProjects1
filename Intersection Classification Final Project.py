@@ -5,7 +5,9 @@ Created on Tue Nov 21 11:31:47 2017
 @author: minifast026
 """ 
 
-"""The purpose of this project was to classify a point dataset of Denver street intersections by the combination of road volume classes that made them up. After classifying the intersections, one could analyze different occurrences (such as bicycle crashes) based on volume-class intersection makeup.
+"""The purpose of this project was to classify a point dataset of Denver street intersections 
+by the combination of road volume classes that made them up. After classifying the intersections,
+one could analyze different occurrences (such as bicycle crashes) based on volume-class intersection makeup.
 """
 
 import arcpy
