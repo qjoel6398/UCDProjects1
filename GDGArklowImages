@@ -1,0 +1,64 @@
+from PyPDF2 import PdfFileWriter, PdfFileReader
+import PyPDF2.pdf
+import pprint
+import time
+import os
+
+time1 = time.clock()
+path = r"O:\Projects\2017\17015 - Irish Rail C&E Decision Support Tool Maintenance\10. Missing Assets\missingassets\Quin's Folder\Arklow_Offshore_Wind_Park_Images\\"
+outputpath = path+r"\\outputs\\"
+os.chdir(path)
+images = os.listdir()
+
+
+
+for image in images:
+    testpdf = path + image
+    input1 = PdfFileReader(testpdf)
+    numPages = input1.getNumPages()
+
+    for i in range(numPages):
+
+        page = input1.getPage(i)
+
+        box1 = {}
+        box1['x'] = page.mediaBox.getUpperRight_x()
+        box1['y'] = page.mediaBox.getUpperRight_y()
+        box1['ur'] = (box1['x'])-5,(box1['y'])-5
+        box1['ll'] = (box1['x']/2) + 12 ,(box1['y']/2) + 10
+
+        box2 = {}
+        box2['x'] = page.mediaBox.getUpperRight_x()
+        box2['y'] = page.mediaBox.getUpperRight_y()
+        box2['ur'] = (box2['x']/2)-5,(box2['y']-5)
+        box2['ll'] = (30) ,((box2['y']/2)+5)
+
+        box3 = {}
+        box3['x'] = page.mediaBox.getUpperRight_x()
+        box3['y'] = page.mediaBox.getUpperRight_y()
+        box3['ur'] = (box3['x']/2),((box3['y']/2))
+        box3['ll'] = (30) ,(15)
+
+        box4 = {}
+        box4['x'] = page.mediaBox.getUpperRight_x()
+        box4['y'] = page.mediaBox.getUpperRight_y()
+        box4['ur'] = (box4['x'])-5,(box4['y']/2)
+        box4['ll'] = (box4['x']/2)+20 ,(15)
+
+        boxes = [box1,box2,box3,box4]
+
+
+        for number, box in enumerate(boxes):
+            page.trimBox.lowerLeft = box['ll']
+            page.trimBox.upperRight = box['ur']
+            page.cropBox.lowerLeft = box['ll']
+            page.cropBox.upperRight = box['ur']
+
+            output = PdfFileWriter()
+            output.addPage(page)
+            outputStream = open(outputpath+ image + str(number+1)+'.pdf', "wb")
+            output.write(outputStream)
+            outputStream.close()
+
+time2 = time.clock()
+print('writing polygon took ' + str(time2-time1) + ' seconds to run')
